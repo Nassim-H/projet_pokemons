@@ -1,15 +1,4 @@
-<!doctype html>
-<html lang=fr>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Liste des</title>
-</head>
-<body>
-
-<h1>Liste des tâches</h1>
+<x-layout : titre="$titre">
 <h4>Filtrage par catégorie</h4>
 <form action="{{route('pokemons.index')}}" method="get">
     <select name="cat">
@@ -52,5 +41,4 @@
 @else
     <h3>Aucune âme dans la table ...</h3>
 @endif
-</body>
-</html>
+</x-layout>

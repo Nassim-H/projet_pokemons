@@ -48,9 +48,13 @@
 
                     <td>{{$pokemon->effectuee ? "👍": "👎" }}</td>
                     <td>
-                        <a href="{{route('pokemons.show', ['tach'=>$pokemon->id])}}">🧾</a>
-                        <a href="{{route('pokemons.edit', ['tache'=>$pokemon->id])}}">📝</a>
-                        <a href="{{route('pokemons.show', ['tach'=>$pokemon->id, 'action'=>'delete'])}}">❌</a>
+                        <a href="{{route('pokemons.show', ['pokemon'=>$pokemon->id])}}">🧾</a>
+                        @can('update',$pokemon)
+                        <a href="{{route('pokemons.edit', ['pokemon'=>$pokemon->id])}}">📝</a>
+                        @endcan
+                        @can('delete',$pokemon)
+                        <a href="{{route('pokemons.show', ['pokemon'=>$pokemon->id, 'action'=>'delete'])}}">❌</a>
+                        @endcan
                     </td>
                 </tr>
 

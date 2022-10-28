@@ -27,22 +27,6 @@ Route::get('/contacts', function () {
 })->name('contacts');;
 
 
-Route::get('/pokemons', [PokemonController::class,'index'])->name('pokemons.html');
-
-
-//Route::get('/pokemons', [TacheController::class, 'index'])->name('pokemons.index');
-Route::resource('pokemons', PokemonController::class)->except('index');
-Route::get('/pokemons', [PokemonController::class, 'indexCookie'])->name('pokemons.index');
-Route::post('/pokemons/{id}/upload', [PokemonController::class, 'upload'])->name('pokemons.upload');
-
-
-
-Route::get('/pokemonsi', [PokemonController::class, 'indexCookie1']);
-Route::get('/pokemons/{tach}', [PokemonController::class, 'show'])->name('pokemons.show');
-Route::get('/pokemons/{tache}/edit', [PokemonController::class, 'edit'])->name('pokemons.edit');
-Route::delete('/pokemons/{tach}/', [PokemonController::class, 'destroy'])->name('pokemons.destroy');
-Route::get('/pokemons/{tache}/edit', [PokemonController::class, 'edit'])->name('pokemons.edit');
-Route::delete('/pokemons/{tach}/', [PokemonController::class, 'destroy'])->name('pokemons.destroy');
 
 
 require __DIR__.'/auth.php';
@@ -58,3 +42,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/pokemons', [PokemonController::class, 'indexCookie'])->name('pokemons.index');
     Route::post('pokemons/{id}/upload', [PokemonController::class, 'upload'])->name('pokemons.upload');
 });
+
+
+//Route::post('taches/{id}', 'TacheController@update')->name('taches.update')->middleware('can:update:id');

@@ -32,18 +32,21 @@
         <div class="image">
             <img src="{{url('storage/'.$pokemon->url_media)}}" alt="image pokémon">
         </div>
+
         @if($action == 'delete')
-            <form action="{{route('pokemons.destroy',$pokemon->id)}}" method="POST">
-                @csrf
-                @method('DELETE')
-                <div class="text-center">
-                    <button type="submit" name="delete" value="valide">Valide</button>
-                    <button type="submit" name="delete" value="annule">Annule</button>
-                </div>
-            </form>
-        @else
+            @can('delete',$pokemon)
+                <form action="{{route('pokemons.destroy',$pokemon->id)}}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div class="text-center">
+                        <button type="submit" name="delete" value="valide">Valide</button>
+                        <button type="submit" name="delete" value="annule">Annule</button>
+                    </div>
+                </form>
+            @endcan
+        @endif
             <div>
                 <a href="{{route('pokemons.index')}}">Retour à la liste</a>
             </div>
-        @endif
+
 </x-layout>

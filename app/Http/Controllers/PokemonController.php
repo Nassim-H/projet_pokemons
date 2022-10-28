@@ -95,6 +95,7 @@ class PokemonController extends Controller {
         $pokemon->type = $request->type;
         $pokemon->faiblesse = $request->faiblesse;
         $pokemon->degats = $request->degats;
+        $pokemon->user_id = $request->id_user;
 
         // insertion de l'enregistrement dans la base de données
         $pokemon->save();
@@ -124,6 +125,7 @@ class PokemonController extends Controller {
      */
     public function edit(int $id): View {
         $pokemon = Pokemon::find($id);
+        $this->authorize('edit', $pokemon);
         return view('pokemons.edit', ['pokemon' => $pokemon, 'titre' => "Modification d'un pokémon"]);
     }
 
@@ -137,58 +139,61 @@ class PokemonController extends Controller {
      */
     public function update(Request $request, int $id): RedirectResponse {
         $pokemon = Pokemon::find($id);
+        $this->authorize('update', $pokemon);
         // validation des données de la requête
-        $this->validate(
-            $request,
-            [
-                'nom' => 'required',
-                'extension' => 'required',
-                'vie' => 'required',
-                'type' => 'required',
-                'faiblesse' => 'required',
-                'degats' => 'required',
-                ],
-            [
-                'required' => 'Le champ :attribute est obligatoire'
-            ]
-        );
+            $this->validate(
+                $request,
+                [
+                    'nom' => 'required',
+                    'extension' => 'required',
+                    'vie' => 'required',
+                    'type' => 'required',
+                    'faiblesse' => 'required',
+                    'degats' => 'required',
+                    ],
+                [
+                    'required' => 'Le champ :attribute est obligatoire'
+                ]
+            );
 
-        // code exécuté uniquement si les données sont validées
-        // sinon un message d'erreur est renvoyé vers l'utilisateur
+            // code exécuté uniquement si les données sont validées
+            // sinon un message d'erreur est renvoyé vers l'utilisateur
 
-        // préparation de l'enregistrement à stocker dans la base de données
+            // préparation de l'enregistrement à stocker dans la base de données
 
-        $pokemon->nom = $request->nom;
-        $pokemon->extension = $request->extension;
-        $pokemon->vie = $request->vie;
-        $pokemon->type = $request->type;
-        $pokemon->degats = $request->degats;
-        $pokemon->faiblesse = $request->faiblesse;
-        if (isset($request->effectuee) && $request->effectuee == "on")
-            $pokemon->effectuee = 1;
-        else
-            $pokemon->effectuee = 0;
+            $pokemon->nom = $request->nom;
+            $pokemon->extension = $request->extension;
+            $pokemon->vie = $request->vie;
+            $pokemon->type = $request->type;
+            $pokemon->degats = $request->degats;
+            $pokemon->faiblesse = $request->faiblesse;
+            if (isset($request->effectuee) && $request->effectuee == "on")
+                $pokemon->effectuee = 1;
+            else
+                $pokemon->effectuee = 0;
 
-        // insertion de l'enregistrement dans la base de données
-        $pokemon->update();
+            // insertion de l'enregistrement dans la base de données
+            $pokemon->update();
 
-        // redirection vers la page qui affiche la liste des tâches
-        return redirect()->route('pokemons.index', ['titre' => "Liste des pokémons"]);
+            // redirection vers la page qui affiche la liste des tâches
+            return redirect()->route('pokemons.index', ['titre' => "Liste des pokémons"]);
+
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Request $request
-     * @param Pokemon $tache
+     * @param Pokemon $pokemon
      * @return RedirectResponse
      */
     public function destroy(Request $request, int $id) {
         if ($request->delete == 'valide') {
             $pokemon = Pokemon::find($id);
+            $this->authorize('destroy', $pokemon);
             $pokemon->delete();
         }
-        return redirect()->route('taches.index');
+        return redirect()->route('pokemons.index');
     }
 
     function storeJson(Request $request) {

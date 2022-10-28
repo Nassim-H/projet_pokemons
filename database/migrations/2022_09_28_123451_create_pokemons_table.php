@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('faiblesse');
             $table->integer('degats');
             $table->string('url_media')->default('images/no-image.jpg');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
         });
     }

@@ -29,4 +29,10 @@ class Pokemon extends Model
 {
     use HasFactory;
     public $timestamps = false;
+
+    public function user() {
+        return $this->belongsToMany(Personne::class, 'role')
+            ->as('role')
+            ->withPivot('role', 'date_role');
+    }
 }

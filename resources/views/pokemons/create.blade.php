@@ -62,6 +62,11 @@
                 <textarea class="form-input" name="degats" id="degats"
                           placeholder="Dégâts..">{{ old('Dégâts') }}</textarea>
             </div>
+            <div class="form-control">
+                <label class="form-label" for="id_user">User :</label>
+                <textarea class="form-input" name="id_user" id="id_user"
+                          placeholder="User..">{{ old('id_user') }}</textarea>
+            </div>
             <div class="form-buttons">
                 <button type="reset">Annule</button>
                 <button type="submit">Valide</button>
